@@ -3,8 +3,8 @@ const API_BASE = 'api';
 enum LocalRoutes {
   AUTH = 'auth',
   USERS = 'users',
-  CATEGORIES = 'categories',
-  PASSWORDS = 'passwords',
+  BANK_ACOUNTS = 'bank-accounts',
+  TRANSACTIONS = 'transactions',
 }
 
 export const Routes = new Proxy(LocalRoutes, {

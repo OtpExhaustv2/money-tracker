@@ -20,5 +20,39 @@ model User {
     email     String @unique
     password  String
 
+    bankAccounts BankAccount[]
+
     @@map("users")
+}
+
+model BankAccount {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name    String
+    iban    String @unique
+    balance Float
+
+    isFavorite Boolean @default(false)
+
+    user   User @relation(fields: [userId], references: [id])
+    userId Int
+
+    transactions Transaction[]
+
+    @@map("bank_accounts")
+}
+
+model Transaction {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    date          DateTime    @default(now())
+    amount        Float
+    bankAccount   BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+    bankAccountId Int
+
+    @@map("transactions")
 }
