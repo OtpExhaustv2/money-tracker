@@ -1,18 +1,20 @@
-import { useQuery } from 'react-query';
-import { getBankAccounts } from './utils/api';
+import { Route, Routes } from 'react-router-dom';
+import PrivateRoutes from './components/PrivateRoutes';
+import Home from './pages/app/Home';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 
-function App() {
-	const { data: bankAccounts } = useQuery('accounts', getBankAccounts);
-
+const App = () => {
 	return (
-		<div className='App'>
-			{bankAccounts?.map((account: any) => (
-				<div key={account.id}>
-					{account.id} - {account.name}
-				</div>
-			))}
-		</div>
+		<Routes>
+			<Route element={<PrivateRoutes />}>
+				<Route path='/' element={<Home />} />
+			</Route>
+			<Route path='/login' element={<Login />} />
+			<Route path='/register' element={<Register />} />
+			<Route path='*' element={<h1>404</h1>} />
+		</Routes>
 	);
-}
+};
 
 export default App;
