@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { CronExpression } from '@nestjs/schedule';
 import { BankAccountService } from 'src/bank-account/bank-account.service';
+import { CronService } from 'src/cron/cron.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateTransactionDto } from './dtos/create-transaction.dto';
 
@@ -8,6 +10,7 @@ export class TransactionsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly bankAccountService: BankAccountService,
+    private readonly cronService: CronService,
   ) {}
 
   async create(createTransactionDto: CreateTransactionDto) {
@@ -17,6 +20,19 @@ export class TransactionsService {
           ...createTransactionDto,
         },
       });
+
+      if (createTransactionDto.isScheduled) {
+        this.cronService.createCronJob(
+          {
+            cron: CronExpression.EVERY_5_SECONDS,
+            description: `Scheculed transaction ${transaction.id}`,
+            name: `transaction-${transaction.id}`,
+          },
+          async () => {
+            this.create({ ...createTransactionDto, isScheduled: false });
+          },
+        );
+      }
 
       await this.bankAccountService.updateBalance(
         createTransactionDto.bankAccountId,
@@ -52,8 +68,18 @@ export class TransactionsService {
     }
   }
 
-  findAllForAMonth(month: number, year: number) {
-    return this.prisma.transaction.findMany({
+  async findAll(userId: number) {
+    return await this.prisma.transaction.findMany({
+      where: {
+        bankAccount: {
+          userId,
+        },
+      },
+    });
+  }
+
+  async findAllForAMonth(month: number, year: number) {
+    return await this.prisma.transaction.findMany({
       where: {
         date: {
           gte: new Date(year, month - 1, 1),

@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsDateString,
   IsNotEmpty,
   IsNumber,
@@ -17,4 +18,8 @@ export class CreateTransactionDto {
   @IsDateString()
   @IsOptional()
   date: Date;
+
+  @IsBoolean()
+  @IsOptional()
+  isScheduled: boolean;
 }

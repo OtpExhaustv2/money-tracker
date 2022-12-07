@@ -53,6 +53,19 @@ model Transaction {
     amount        Float
     bankAccount   BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
     bankAccountId Int
+    isScheduled   Boolean     @default(false)
 
     @@map("transactions")
+}
+
+model CronJob {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name        String
+    description String
+    cron        String
+
+    @@map("cron_jobs")
 }

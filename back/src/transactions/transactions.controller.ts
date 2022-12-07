@@ -7,8 +7,10 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { JwtAuthGuard } from 'src/auth/guards';
 import { Routes } from 'src/utils/constants';
+import { AuthUser } from 'src/utils/decorators';
 import { CreateTransactionDto } from './dtos/create-transaction.dto';
 import { TransactionsService } from './transactions.service';
 
@@ -25,6 +27,11 @@ export class TransactionsController {
   @Delete(':id')
   delete(@Param('id') id: number) {
     return this.transactionsService.delete(id);
+  }
+
+  @Get()
+  findAll(@AuthUser() user: User) {
+    return this.transactionsService.findAll(user.id);
   }
 
   @Get('by-month/:month')
