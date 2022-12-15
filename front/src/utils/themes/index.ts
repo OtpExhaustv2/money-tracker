@@ -1,5 +1,16 @@
-export type Theme = {};
+import { StandardLonghandProperties as CSS } from 'csstype';
 
-export const LightTheme: Theme = {};
+export type Theme = {
+	background: CSS['backgroundColor'];
+	color: CSS['color'];
+};
 
-export const DarkTheme: Theme = {};
+export const LightTheme: Theme = {
+	background: 'white',
+	color: '#000',
+};
+
+export const DarkTheme: Theme = {
+	background: 'black',
+	color: '#fff',
+};

@@ -14,14 +14,14 @@ export const useAuth = () => {
 
 type AuthContextType = {
 	user: User | null;
-	login: (params: LoginParams) => void;
+	login: (params: LoginRequest) => void;
 	logout: () => void;
 	isLoading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType>({
 	user: null,
-	login: (params: LoginParams) => {},
+	login: (params: LoginRequest) => {},
 	logout: () => {},
 	isLoading: true,
 });
@@ -29,7 +29,7 @@ const AuthContext = createContext<AuthContextType>({
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 	const [user, setUser] = useState<User | null>(null);
 	const navigate = useNavigate();
-	const { mutate } = useMutation('login', login, {
+	const { mutate: _login } = useMutation('login', login, {
 		onSuccess(data) {
 			setLocalStorage('token', data.accessToken);
 			setUser(data);
@@ -38,10 +38,6 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 	});
 
 	const { isLoading } = useMe((data) => setUser(data));
-
-	const _login = (params: LoginParams) => {
-		mutate(params);
-	};
 
 	const _logout = () => {
 		removeLocalStorage('token');

@@ -6,7 +6,7 @@ interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
 	const { login } = useAuth();
-	const { register, handleSubmit } = useForm<LoginParams>({
+	const { register, handleSubmit } = useForm<LoginRequest>({
 		defaultValues: {
 			email: 'sebastien.vanvreckem@gmail.com',
 			password: 'azerty1234',

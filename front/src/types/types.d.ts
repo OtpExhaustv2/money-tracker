@@ -69,4 +69,9 @@ declare global {
 				scheduledAt?: never;
 		  }
 	);
+
+	type SelectableTheme = 'light' | 'dark';
+	type Global = {
+		theme: SelectableTheme;
+	};
 }
