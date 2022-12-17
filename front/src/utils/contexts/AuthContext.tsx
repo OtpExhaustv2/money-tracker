@@ -1,8 +1,7 @@
+import { login, removeLocalStorage, setLocalStorage, useMe } from '@/utils';
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { login, useMe } from '../api';
-import { removeLocalStorage, setLocalStorage } from '../helpers';
 
 export const useAuth = () => {
 	const c = useContext(AuthContext);

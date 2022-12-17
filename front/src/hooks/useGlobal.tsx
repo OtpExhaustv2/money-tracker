@@ -4,7 +4,7 @@ let global: Global = {
 	theme: 'dark',
 };
 
-export const useGlobal = () => {
+const useGlobal = () => {
 	const queryClient = useQueryClient();
 	const { data } = useQuery('global', () => global);
 	const { mutate } = useMutation(
@@ -20,3 +20,5 @@ export const useGlobal = () => {
 
 	return { globalState: data, setGlobalState: mutate };
 };
+
+export default useGlobal;

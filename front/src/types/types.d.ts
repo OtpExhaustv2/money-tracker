@@ -1,3 +1,4 @@
+import React from 'react';
 import { CronExpression } from '../utils/constants';
 
 declare global {
@@ -74,4 +75,19 @@ declare global {
 	type Global = {
 		theme: SelectableTheme;
 	};
+
+	type TSidebarItem = {
+		name: string;
+		icon: IconProp;
+		path: string;
+	} & (
+		| {
+				isCollapsible: true;
+				children?: React.ReactNode[];
+		  }
+		| {
+				isCollapsible?: false | never;
+				children?: never;
+		  }
+	);
 }

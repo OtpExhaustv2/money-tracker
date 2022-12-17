@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { getLocalStorage } from '../utils/helpers';
-import { useGlobal } from './useGlobal';
+import useGlobal from './useGlobal';
 
-export const useTheme = () => {
+const useTheme = () => {
 	const { globalState, setGlobalState } = useGlobal();
 
 	useEffect(() => {
@@ -31,3 +31,5 @@ export const useTheme = () => {
 
 	return { theme: globalState?.theme, setTheme, toggleTheme };
 };
+
+export default useTheme;
