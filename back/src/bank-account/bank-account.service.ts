@@ -55,6 +55,9 @@ export class BankAccountService {
         where: {
           userId: userId,
         },
+        include: {
+          transactions: true,
+        },
       });
     } catch (error) {
       console.log(error);

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { SidebarItemCollapseIconProps, SidebarItemProps } from './style.types';
 
 export const MainContainer = styled.div`
@@ -14,6 +14,7 @@ export const MainContainer = styled.div`
 
 export const AppContainer = styled.div`
 	background-color: ${({ theme }) => theme.background.primary};
+	overflow: auto;
 	padding: 1rem;
 `;
 
@@ -74,3 +75,32 @@ export const SidebarChildrenItemContainer = styled.div<SidebarItemCollapseIconPr
 `;
 
 export const SidebarChildrenItem = styled.div<SidebarItemCollapseIconProps>``;
+
+export const BankAccountContainer = styled.div`
+	margin-top: 1rem;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+	gap: 1rem;
+`;
+
+export const BankAccountCard = styled.div`
+	background-color: ${({ theme }) => theme.background.secondary};
+	padding: 1rem;
+	border-radius: 0.5rem;
+	cursor: pointer;
+	transition: 0.2s ease-in-out;
+
+	// add box-shadow on hover
+	&:hover {
+		box-shadow: 0.5rem 0.5rem 5px 0 rgba(0 0 0 / 20%);
+		transform: translateY(-0.2rem);
+	}
+`;
+
+export const BankAccountCardHeader = styled.div`
+	display: flex;
+	flex-direction: column;
+	font-size: 1.2rem;
+	font-weight: 700;
+	margin-bottom: 1rem;
+`;

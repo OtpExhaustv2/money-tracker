@@ -20,11 +20,14 @@ declare global {
 		isFavorite: boolean;
 		createdAt: Date;
 		updatedAt: Date;
+		transactions: Transaction[];
 	};
 
 	type Transaction = {
 		id: number;
 		amount: number;
+		description: string;
+		date: Date;
 		createdAt: Date;
 		updatedAt: Date;
 		bankAccountId: number;

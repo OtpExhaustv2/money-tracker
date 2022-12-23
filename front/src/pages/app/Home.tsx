@@ -1,17 +1,35 @@
-import { useTheme } from '@/hooks';
-import { useAuth, useTransactions } from '@/utils';
-import React from 'react';
+import { BankAccounts } from '@/components';
+import Modal from '@/components/modal/Modal';
+import {
+	ModalPositionX,
+	ModalPositionY,
+} from '@/components/modal/modal.interface';
+import React, { useState } from 'react';
 
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
-	const { data } = useTransactions();
-	const { setTheme } = useTheme();
-	const { user } = useAuth();
+	const [showModal, setShowModal] = useState(false);
 
 	return (
 		<>
-			<h1>Bonjour {user?.firstName}</h1>
+			<h1>Tableau de bord</h1>
+			<BankAccounts />
+
+			<button onClick={() => setShowModal((_) => !_)}>Toggle</button>
+			<Modal
+				show={showModal}
+				setShow={setShowModal}
+				config={{
+					title: 'Modal Header 1',
+					showHeader: true,
+					showOverlay: true,
+					positionX: ModalPositionX.center,
+					positionY: ModalPositionY.center,
+					padding: '20px',
+				}}>
+				<div>test</div>
+			</Modal>
 		</>
 	);
 };

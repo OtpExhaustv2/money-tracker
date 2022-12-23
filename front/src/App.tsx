@@ -1,13 +1,11 @@
 import AppPage from '@/AppPage';
 import { useTheme } from '@/hooks';
-import { Home } from '@/pages/app';
+import { BankAccounts, Home } from '@/pages/app';
 import { Login, Register } from '@/pages/auth';
 import { AuthenticatedRoute, UnauthenticatedRoute } from '@/routes';
 import { DarkTheme, LightTheme } from '@/utils';
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import BankAccounts from './pages/app/BankAccounts';
-import Dashboard from './pages/app/Dashboard';
 
 const App = () => {
 	const { theme } = useTheme();
@@ -18,7 +16,6 @@ const App = () => {
 			<Routes>
 				<Route element={<AuthenticatedRoute children={<AppPage />} />}>
 					<Route path='/' element={<Home />} />
-					<Route path='/dashboard' element={<Dashboard />} />
 					<Route path='/bank-accounts' element={<BankAccounts />} />
 				</Route>
 				<Route element={<UnauthenticatedRoute />}>

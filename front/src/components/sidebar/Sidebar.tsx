@@ -10,21 +10,16 @@ const Sidebar: React.FC<SidebarProps> = () => {
 	const { data: bankAccounts } = useBankAccounts();
 	const sidebarItems: TSidebarItem[] = [
 		{
-			name: 'Home',
-			icon: 'home',
+			name: 'Tableau de bord',
+			icon: 'dashboard',
 			path: '/',
 		},
 		{
-			name: 'Bank accounts',
-			icon: 'university',
+			name: 'Comptes bancaires',
+			icon: 'credit-card',
 			path: '/bank-accounts',
 			isCollapsible: true,
 			children: bankAccounts?.map((bankAccount) => <p>{bankAccount.iban}</p>),
-		},
-		{
-			name: 'Dashboard',
-			icon: 'dashboard',
-			path: '/dashboard',
 		},
 	];
 
