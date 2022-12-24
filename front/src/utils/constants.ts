@@ -1,5 +1,17 @@
 export const BASE_URL = 'http://localhost:5000';
 
+export enum ModalPositionX {
+	center = 'center',
+	right = 'right',
+	left = 'left',
+}
+
+export enum ModalPositionY {
+	center = 'center',
+	start = 'start',
+	end = 'end',
+}
+
 export enum CronExpression {
 	EVERY_SECOND = '* * * * * *',
 	EVERY_5_SECONDS = '*/5 * * * * *',

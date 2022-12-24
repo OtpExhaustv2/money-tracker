@@ -1,6 +1,5 @@
 import { useBankAccounts } from '@/utils';
 import { SidebarContainer, SidebarItems, SidebarTitle } from '@/utils/styles';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import React from 'react';
 import SidebarItem from './SidebarItem';
 

@@ -93,4 +93,14 @@ declare global {
 				children?: never;
 		  }
 	);
+
+	type TModalConfig = {
+		title: string;
+		showHeader: boolean;
+		positionX: ModalPositionX;
+		positionY: ModalPositionY;
+		padding: string;
+		showOverlay: boolean;
+		allowClickOutside: boolean;
+	};
 }

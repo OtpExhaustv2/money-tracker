@@ -1,4 +1,6 @@
 import { useOnClickOutside } from '@/hooks';
+import { ModalPositionX, ModalPositionY } from '@/utils';
+import * as S from '@/utils/styles/modal.styles';
 import React, {
 	PropsWithChildren,
 	useCallback,
@@ -6,18 +8,30 @@ import React, {
 	useRef,
 	useState,
 } from 'react';
-import { ModalConfig } from './modal.interface';
 import PortalModal from './PortalModal';
-import * as S from './styles';
+
+const defaultConfig: TModalConfig = {
+	title: 'Modal Header 1',
+	showHeader: true,
+	showOverlay: true,
+	positionX: ModalPositionX.center,
+	positionY: ModalPositionY.center,
+	padding: '20px',
+	allowClickOutside: false,
+};
 
 interface ModalProps extends PropsWithChildren {
-	show: boolean;
-	setShow: React.Dispatch<React.SetStateAction<boolean>>;
-	config: ModalConfig;
+	config?: TModalConfig;
 }
 
-const Modal: React.FC<ModalProps> = ({ show, setShow, children, config }) => {
-	const [shouldRender, setShouldRender] = useState(show);
+export const modal = {
+	show: () => {},
+	close: () => {},
+};
+
+const Modal: React.FC<ModalProps> = ({ children, config = defaultConfig }) => {
+	const [show, setShow] = useState(false);
+	const [shouldRender, setShouldRender] = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
 
 	const handleClickOutside = () => {
@@ -30,7 +44,12 @@ const Modal: React.FC<ModalProps> = ({ show, setShow, children, config }) => {
 		}
 	}, []);
 
-	useOnClickOutside(modalRef, handleClickOutside);
+	useEffect(() => {
+		modal.show = () => setShow(true);
+		modal.close = () => setShow(false);
+	}, []);
+
+	useOnClickOutside(modalRef, handleClickOutside, config.allowClickOutside);
 
 	useEffect(() => {
 		if (show) {

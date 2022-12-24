@@ -1,5 +1,5 @@
+import { ModalPositionX, ModalPositionY } from '@/utils';
 import styled, { keyframes } from 'styled-components';
-import { ModalPositionX, ModalPositionY } from './modal.interface';
 
 interface PropsOverlay {
 	showOverlay: boolean;
@@ -111,7 +111,7 @@ export const ModalHeader = styled.header`
 	justify-content: space-between;
 	margin-bottom: 20px;
 	padding-bottom: 20px;
-	border-bottom: 1px solid ${({ theme }) => theme.text};
+	border-bottom: 1px solid ${({ theme }) => theme.background.primary};
 	h3 {
 		font-weight: 500;
 		font-size: 16px;
@@ -166,5 +166,5 @@ export const ModalFooter = styled.footer`
 	justify-content: center;
 	margin-top: 20px;
 	padding-top: 20px;
-	border-top: 1px solid ${({ theme }) => theme.text};
+	border-top: 1px solid ${({ theme }) => theme.background.primary};
 `;

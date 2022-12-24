@@ -1,4 +1,4 @@
-import { Sidebar } from '@/components';
+import { Modal, Sidebar } from '@/components';
 import { AppContainer, MainContainer } from '@/utils';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
@@ -12,6 +12,7 @@ const AppPage: React.FC<AppPageProps> = () => {
 			<AppContainer>
 				<Outlet />
 			</AppContainer>
+			<Modal />
 		</MainContainer>
 	);
 };

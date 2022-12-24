@@ -4,12 +4,17 @@ type Event = MouseEvent | TouchEvent;
 
 const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
 	ref: RefObject<T>,
-	handler: (event: Event) => void
+	handler: (event: Event) => void,
+	allowClickOutside?: boolean
 ) => {
 	useEffect(() => {
 		const listener = (event: Event) => {
 			const el = ref?.current;
 			if (!el || el.contains((event?.target as Node) || null)) return null;
+			if (!allowClickOutside) {
+				el.style.backgroundColor = 'red';
+				return;
+			}
 
 			handler(event);
 		};
