@@ -29,3 +29,7 @@ export const formatDate = (value: Date) => {
 	const date = new Date(value);
 	return dateFormatter.format(date);
 };
+
+export const mergeObjects = (obj1: any, obj2: any) => {
+	return Object.assign({}, obj1, obj2);
+};

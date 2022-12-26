@@ -1,13 +1,7 @@
 import { useOnClickOutside } from '@/hooks';
-import { ModalPositionX, ModalPositionY } from '@/utils';
+import { mergeObjects, ModalPositionX, ModalPositionY } from '@/utils';
 import * as S from '@/utils/styles/modal.styles';
-import React, {
-	PropsWithChildren,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PortalModal from './PortalModal';
 
 const defaultConfig: TModalConfig = {
@@ -17,19 +11,19 @@ const defaultConfig: TModalConfig = {
 	positionX: ModalPositionX.center,
 	positionY: ModalPositionY.center,
 	padding: '20px',
-	allowClickOutside: false,
+	allowClickOutside: true,
 };
 
-interface ModalProps extends PropsWithChildren {
-	config?: TModalConfig;
-}
+interface ModalProps {}
 
-export const modal = {
+export const modal: TModal = {
 	show: () => {},
-	close: () => {},
+	hide: () => {},
 };
 
-const Modal: React.FC<ModalProps> = ({ children, config = defaultConfig }) => {
+const Modal: React.FC<ModalProps> = () => {
+	const [children, setChildren] = useState<React.ReactNode>(null);
+	const [config, setConfig] = useState<TModalConfig>(defaultConfig);
 	const [show, setShow] = useState(false);
 	const [shouldRender, setShouldRender] = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
@@ -45,8 +39,15 @@ const Modal: React.FC<ModalProps> = ({ children, config = defaultConfig }) => {
 	}, []);
 
 	useEffect(() => {
-		modal.show = () => setShow(true);
-		modal.close = () => setShow(false);
+		modal.show = (params?: {
+			config?: Partial<TModalConfig>;
+			children?: React.ReactNode;
+		}) => {
+			setChildren(params?.children);
+			setConfig(mergeObjects(defaultConfig, params?.config));
+			setShow(true);
+		};
+		modal.hide = () => setShow(false);
 	}, []);
 
 	useOnClickOutside(modalRef, handleClickOutside, config.allowClickOutside);

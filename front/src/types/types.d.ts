@@ -102,5 +102,22 @@ declare global {
 		padding: string;
 		showOverlay: boolean;
 		allowClickOutside: boolean;
+	} & (
+		| {
+				isForm: true;
+				onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+		  }
+		| {
+				isForm?: false | never;
+				onSubmit?: never;
+		  }
+	);
+
+	type TModal = {
+		show: (params?: {
+			config?: Partial<TModalConfig>;
+			children?: React.ReactNode;
+		}) => void;
+		hide: () => void;
 	};
 }

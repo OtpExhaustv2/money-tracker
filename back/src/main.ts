@@ -13,6 +13,6 @@ async function bootstrap() {
   );
   app.useGlobalInterceptors(new NumberParamsCastingInterceptor());
   app.use(passport.initialize());
-  await app.listen(5000);
+  await app.listen(6006);
 }
 bootstrap();
