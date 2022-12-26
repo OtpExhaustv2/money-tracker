@@ -78,6 +78,17 @@ export class TransactionsService {
     });
   }
 
+  async findAllByBankAccount(bankAccountId: number) {
+    return await this.prisma.transaction.findMany({
+      where: {
+        bankAccountId,
+      },
+      orderBy: {
+        date: 'desc',
+      },
+    });
+  }
+
   async findAllForAMonth(month: number, year: number) {
     return await this.prisma.transaction.findMany({
       where: {

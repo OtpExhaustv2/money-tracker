@@ -34,6 +34,11 @@ export class TransactionsController {
     return this.transactionsService.findAll(user.id);
   }
 
+  @Get('bank-account/:bankAccountId')
+  findAllByBankAccount(@Param('bankAccountId') bankAccountId: number) {
+    return this.transactionsService.findAllByBankAccount(bankAccountId);
+  }
+
   @Get('by-month/:month')
   findAllByMonth(@Param('month') month: number) {
     return this.transactionsService.findAllForAMonth(month, 2022);

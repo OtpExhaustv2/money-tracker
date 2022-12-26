@@ -1,29 +1,25 @@
 import { BankAccounts } from '@/components';
-import { modal } from '@/components/modal/Modal';
+import { useCreateTransaction } from '@/utils';
 
 import React from 'react';
 
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
+	const { mutate: createTransaction } = useCreateTransaction();
 	return (
 		<>
 			<h1>Tableau de bord</h1>
 			<BankAccounts />
-
 			<button
 				onClick={() =>
-					modal.show({
-						config: {
-							title: 'test',
-							isForm: true,
-						},
-						children: <h1>test</h1>,
+					createTransaction({
+						amount: Math.random() * 1000,
+						bankAccountId: 3,
 					})
 				}>
-				Toggle
+				Créer une transaction
 			</button>
-			<button onClick={() => modal.show()}>Toggle 2</button>
 		</>
 	);
 };

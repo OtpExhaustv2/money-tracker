@@ -8,7 +8,7 @@ export const removeLocalStorage = (key: string) => {
 	localStorage.removeItem(key);
 };
 
-const numberFormatter = new Intl.NumberFormat('fr-BE', {
+const currencyFormatter = new Intl.NumberFormat('fr-BE', {
 	currency: 'EUR',
 	style: 'currency',
 	minimumFractionDigits: 2,
@@ -16,7 +16,7 @@ const numberFormatter = new Intl.NumberFormat('fr-BE', {
 });
 
 export const formatCurrency = (value: number) => {
-	return numberFormatter.format(value);
+	return currencyFormatter.format(value);
 };
 
 const dateFormatter = new Intl.DateTimeFormat('fr-BE', {

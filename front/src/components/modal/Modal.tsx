@@ -1,17 +1,19 @@
+import * as S from '@/components/modal/modal.styles';
 import { useOnClickOutside } from '@/hooks';
 import { mergeObjects, ModalPositionX, ModalPositionY } from '@/utils';
-import * as S from '@/utils/styles/modal.styles';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import ConditionnalParent from '../ConditionnalParent';
 import PortalModal from './PortalModal';
 
 const defaultConfig: TModalConfig = {
-	title: 'Modal Header 1',
-	showHeader: true,
+	showHeader: false,
 	showOverlay: true,
 	positionX: ModalPositionX.center,
 	positionY: ModalPositionY.center,
-	padding: '20px',
+	contentPadding: '15px',
 	allowClickOutside: true,
+	size: 'sm',
+	borderRadius: '10px',
 };
 
 interface ModalProps {}
@@ -19,6 +21,7 @@ interface ModalProps {}
 export const modal: TModal = {
 	show: () => {},
 	hide: () => {},
+	setConfig: () => {},
 };
 
 const Modal: React.FC<ModalProps> = () => {
@@ -40,32 +43,33 @@ const Modal: React.FC<ModalProps> = () => {
 
 	useEffect(() => {
 		modal.show = (params?: {
-			config?: Partial<TModalConfig>;
+			config?: TModalConfig;
 			children?: React.ReactNode;
 		}) => {
 			setChildren(params?.children);
 			setConfig(mergeObjects(defaultConfig, params?.config));
 			setShow(true);
 		};
-		modal.hide = () => setShow(false);
+		modal.hide = () => {
+			setShow(false);
+		};
+		modal.setConfig = (config: TModalConfig) => {
+			setConfig((_) => mergeObjects(_, config));
+		};
 	}, []);
 
 	useOnClickOutside(modalRef, handleClickOutside, config.allowClickOutside);
 
 	useEffect(() => {
 		if (show) {
+			setShouldRender(true);
+
 			document.addEventListener('keydown', handleKeyPress);
 			return () => {
 				document.removeEventListener('keydown', handleKeyPress);
 			};
 		}
 	}, [handleKeyPress, show]);
-
-	useEffect(() => {
-		if (show) {
-			setShouldRender(true);
-		}
-	}, [show]);
 
 	const onAnimationEnd = () => {
 		if (!show) {
@@ -84,28 +88,36 @@ const Modal: React.FC<ModalProps> = () => {
 						shouldRender={show}
 						onAnimationEnd={onAnimationEnd}>
 						<S.ModalContainer
-							padding={config.padding}
+							size={config?.size}
+							borderRadius={config?.borderRadius}
 							ref={modalRef}
 							shouldRender={show}>
-							{config.showHeader && (
-								<S.ModalHeader>
-									<h3>{config.title}</h3>
-								</S.ModalHeader>
-							)}
+							<ConditionnalParent
+								condition={!!config.onSubmit}
+								parentIfTrue='form'
+								parentIfTrueProps={{
+									onSubmit: config!.onSubmit,
+								}}
+								parentIfFalse='div'>
+								{(config.showHeader || config.title) && (
+									<S.ModalHeader>
+										<h3>
+											{config.title} {config.showAsterisk ? '*' : ''}
+										</h3>
+									</S.ModalHeader>
+								)}
 
-							<S.Close onClick={() => setShow(!show)}>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									width='16'
-									height='16'
-									fill='currentColor'
-									className='bi bi-x'
-									viewBox='0 0 16 16'>
-									<path d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z' />
-								</svg>
-							</S.Close>
-
-							<S.Content>{children}</S.Content>
+								<S.ModalContent padding={config.contentPadding}>
+									{children}
+								</S.ModalContent>
+								{config.showFooter && (
+									<S.ModalFooter>
+										<div>
+											<input type='submit' />
+										</div>
+									</S.ModalFooter>
+								)}
+							</ConditionnalParent>
 						</S.ModalContainer>
 					</S.Overlay>
 				</PortalModal>

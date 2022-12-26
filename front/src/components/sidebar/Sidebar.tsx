@@ -1,6 +1,6 @@
 import { useBankAccounts } from '@/utils';
-import { SidebarContainer, SidebarItems, SidebarTitle } from '@/utils/styles';
 import React from 'react';
+import { SidebarContainer, SidebarItems, SidebarTitle } from './sidebar.style';
 import SidebarItem from './SidebarItem';
 
 interface SidebarProps {}

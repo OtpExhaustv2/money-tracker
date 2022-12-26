@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
 	SidebarChildrenItem,
 	SidebarChildrenItemContainer,
@@ -5,10 +8,7 @@ import {
 	SidebarItemContainer,
 	SidebarItemIcon,
 	SidebarItemName,
-} from '@/utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+} from './sidebar.style';
 
 const SidebarItem: React.FC<TSidebarItem> = ({
 	path,

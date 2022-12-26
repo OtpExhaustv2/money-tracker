@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateBankAccountDto } from './dtos';
+import { CreateBankAccountDto, UpdateBankAccountDto } from './dtos';
 
 @Injectable()
 export class BankAccountService {
@@ -49,14 +49,50 @@ export class BankAccountService {
     }
   }
 
+  async update(
+    bankAccount: UpdateBankAccountDto,
+    bankAccountId: number,
+    userId: number,
+  ) {
+    try {
+      const bankAccountToUpdate = await this.prisma.bankAccount.findUnique({
+        where: {
+          id: bankAccountId,
+        },
+      });
+      if (bankAccountToUpdate.userId !== userId) {
+        throw new ForbiddenException(
+          'You are not the owner of this bank account',
+        );
+      }
+      return await this.prisma.bankAccount.update({
+        where: {
+          id: bankAccountId,
+        },
+        data: {
+          ...bankAccount,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async getMines(userId: number) {
     try {
       return await this.prisma.bankAccount.findMany({
         where: {
           userId: userId,
         },
+        orderBy: {
+          isFavorite: 'desc',
+        },
         include: {
-          transactions: true,
+          transactions: {
+            orderBy: {
+              date: 'desc',
+            },
+          },
         },
       });
     } catch (error) {

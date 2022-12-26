@@ -1,10 +1,15 @@
+import { formatCurrency } from '@/utils';
+import React from 'react';
+import Icon from '../Icon';
+import { modal } from '../modal/Modal';
+import { Transactions } from '../transaction';
 import {
 	BankAccountCard,
 	BankAccountCardHeader,
-	formatCurrency,
-} from '@/utils';
-import React, { useMemo } from 'react';
-import { Transactions } from '../transaction';
+	BankAccountCardHeaderActions,
+	BankAccountCardHeaderTitle,
+} from './bank-account.style';
+import BankAccountForm from './BankAccountForm';
 
 interface BankAccountProps {
 	bankAccount: BankAccount;
@@ -13,22 +18,35 @@ interface BankAccountProps {
 
 const BankAccount: React.FC<BankAccountProps> = ({
 	bankAccount,
-	recentNumber = 3,
+	recentNumber,
 }) => {
-	const recentsTransactions = useMemo(
-		() => bankAccount.transactions.slice(0, recentNumber),
-		[bankAccount.transactions, recentNumber]
-	);
+	const editBankAccount = () => {
+		modal.show({
+			config: {
+				title: 'Editer un compte bancaire',
+				showFooter: true,
+			},
+			children: <BankAccountForm bankAccount={bankAccount} />,
+		});
+	};
 
 	return (
 		<BankAccountCard>
 			<BankAccountCardHeader>
-				<p>{bankAccount.iban}</p>
-				<p>{formatCurrency(bankAccount.balance)}</p>
+				<BankAccountCardHeaderTitle>
+					<h2>{bankAccount.name}</h2>
+					<h3>{bankAccount.iban}</h3>
+					<span>{formatCurrency(bankAccount.balance)}</span>
+				</BankAccountCardHeaderTitle>
+				<BankAccountCardHeaderActions>
+					<Icon icon='pen' onClick={editBankAccount} />
+				</BankAccountCardHeaderActions>
 			</BankAccountCardHeader>
-			{recentsTransactions.length > 0 ? (
-				<Transactions transactions={recentsTransactions} />
-			) : null}
+
+			<Transactions
+				recentNumber={recentNumber}
+				bankAccountId={bankAccount.id}
+			/>
 		</BankAccountCard>
 	);
 };

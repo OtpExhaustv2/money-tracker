@@ -1,12 +1,13 @@
-import { BankAccountContainer, useBankAccounts } from '@/utils';
+import { useBankAccounts } from '@/utils';
 import React from 'react';
+import { BankAccountContainer } from './bank-account.style';
 import BankAccount from './BankAccount';
 
 interface BankAccountsProps {
 	recentNumber?: number;
 }
 
-const BankAccounts: React.FC<BankAccountsProps> = ({ recentNumber }) => {
+const BankAccounts: React.FC<BankAccountsProps> = ({ recentNumber = 3 }) => {
 	const { data: bankAccounts, isLoading } = useBankAccounts();
 	return (
 		<BankAccountContainer>

@@ -26,7 +26,7 @@ declare global {
 	type Transaction = {
 		id: number;
 		amount: number;
-		description: string;
+		description?: string;
 		date: Date;
 		createdAt: Date;
 		updatedAt: Date;
@@ -94,30 +94,29 @@ declare global {
 		  }
 	);
 
+	type TModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
 	type TModalConfig = {
-		title: string;
-		showHeader: boolean;
-		positionX: ModalPositionX;
-		positionY: ModalPositionY;
-		padding: string;
-		showOverlay: boolean;
-		allowClickOutside: boolean;
-	} & (
-		| {
-				isForm: true;
-				onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-		  }
-		| {
-				isForm?: false | never;
-				onSubmit?: never;
-		  }
-	);
+		title?: string;
+		showHeader?: boolean;
+		showFooter?: boolean;
+		showAsterisk?: boolean;
+		positionX?: ModalPositionX;
+		positionY?: ModalPositionY;
+		contentPadding?: string;
+		showOverlay?: boolean;
+		allowClickOutside?: boolean;
+		size?: TModalSize;
+		borderRadius?: string | number;
+		onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+	};
 
 	type TModal = {
 		show: (params?: {
-			config?: Partial<TModalConfig>;
+			config?: TModalConfig;
 			children?: React.ReactNode;
 		}) => void;
 		hide: () => void;
+		setConfig: (config: TModalConfig) => void;
 	};
 }
