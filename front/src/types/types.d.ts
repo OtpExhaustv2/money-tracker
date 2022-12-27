@@ -23,6 +23,8 @@ declare global {
 		transactions: Transaction[];
 	};
 
+	type BankAccountWithoutTransactions = Omit<BankAccount, 'transactions'>;
+
 	type Transaction = {
 		id: number;
 		amount: number;
@@ -119,4 +121,6 @@ declare global {
 		hide: () => void;
 		setConfig: (config: TModalConfig) => void;
 	};
+
+	type TAction = 'view' | 'create' | 'update';
 }

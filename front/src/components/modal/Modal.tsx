@@ -1,8 +1,16 @@
 import * as S from '@/components/modal/modal.styles';
 import { useOnClickOutside } from '@/hooks';
-import { mergeObjects, ModalPositionX, ModalPositionY } from '@/utils';
+import {
+	Flex1,
+	mergeObjects,
+	ModalPositionX,
+	ModalPositionY,
+	Row,
+} from '@/utils';
+import { AnimatePresence, Variants } from 'framer-motion';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ConditionnalParent from '../ConditionnalParent';
+import Icon from '../Icon';
 import PortalModal from './PortalModal';
 
 const defaultConfig: TModalConfig = {
@@ -24,11 +32,36 @@ export const modal: TModal = {
 	setConfig: () => {},
 };
 
+const overlayVariants: Variants = {
+	hidden: {
+		opacity: 0,
+	},
+	visible: {
+		opacity: 1,
+	},
+};
+
+const modalVariants: Variants = {
+	hidden: {
+		opacity: 0,
+		y: -100,
+		transition: {
+			duration: 0.2,
+		},
+	},
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			delay: 0.2,
+		},
+	},
+};
+
 const Modal: React.FC<ModalProps> = () => {
 	const [children, setChildren] = useState<React.ReactNode>(null);
 	const [config, setConfig] = useState<TModalConfig>(defaultConfig);
 	const [show, setShow] = useState(false);
-	const [shouldRender, setShouldRender] = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
 
 	const handleClickOutside = () => {
@@ -62,8 +95,6 @@ const Modal: React.FC<ModalProps> = () => {
 
 	useEffect(() => {
 		if (show) {
-			setShouldRender(true);
-
 			document.addEventListener('keydown', handleKeyPress);
 			return () => {
 				document.removeEventListener('keydown', handleKeyPress);
@@ -71,27 +102,26 @@ const Modal: React.FC<ModalProps> = () => {
 		}
 	}, [handleKeyPress, show]);
 
-	const onAnimationEnd = () => {
-		if (!show) {
-			setShouldRender(false);
-		}
-	};
-
 	return (
-		<>
-			{shouldRender ? (
+		<AnimatePresence initial={false} mode='wait'>
+			{show && (
 				<PortalModal wrapperId='modal-portal'>
 					<S.Overlay
 						showOverlay={config.showOverlay}
 						positionX={config.positionX}
 						positionY={config.positionY}
-						shouldRender={show}
-						onAnimationEnd={onAnimationEnd}>
+						variants={overlayVariants}
+						initial='hidden'
+						animate='visible'
+						exit='hidden'>
 						<S.ModalContainer
 							size={config?.size}
 							borderRadius={config?.borderRadius}
 							ref={modalRef}
-							shouldRender={show}>
+							variants={modalVariants}
+							initial='hidden'
+							animate='visible'
+							exit='hidden'>
 							<ConditionnalParent
 								condition={!!config.onSubmit}
 								parentIfTrue='form'
@@ -101,9 +131,21 @@ const Modal: React.FC<ModalProps> = () => {
 								parentIfFalse='div'>
 								{(config.showHeader || config.title) && (
 									<S.ModalHeader>
-										<h3>
-											{config.title} {config.showAsterisk ? '*' : ''}
-										</h3>
+										<Row full>
+											<h3>
+												{config.title} {config.showAsterisk ? '*' : ''}
+											</h3>
+											<Flex1 />
+											<Icon
+												icon='close'
+												size='1x'
+												style={{
+													cursor: 'pointer',
+													padding: '5px',
+												}}
+												onClick={() => modal.hide()}
+											/>
+										</Row>
 									</S.ModalHeader>
 								)}
 
@@ -121,8 +163,8 @@ const Modal: React.FC<ModalProps> = () => {
 						</S.ModalContainer>
 					</S.Overlay>
 				</PortalModal>
-			) : null}
-		</>
+			)}
+		</AnimatePresence>
 	);
 };
 

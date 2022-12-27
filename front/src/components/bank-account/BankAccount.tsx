@@ -26,12 +26,12 @@ const BankAccount: React.FC<BankAccountProps> = ({
 				title: 'Editer un compte bancaire',
 				showFooter: true,
 			},
-			children: <BankAccountForm bankAccount={bankAccount} />,
+			children: <BankAccountForm bankAccount={bankAccount} action='update' />,
 		});
 	};
 
 	return (
-		<BankAccountCard>
+		<BankAccountCard isFavorite={bankAccount.isFavorite}>
 			<BankAccountCardHeader>
 				<BankAccountCardHeaderTitle>
 					<h2>{bankAccount.name}</h2>

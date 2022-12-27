@@ -12,10 +12,8 @@ export type OverlayProps = {
 	showOverlay?: boolean;
 	positionX?: ModalPositionX;
 	positionY?: ModalPositionY;
-	shouldRender?: boolean;
 };
 export type ModalContainerProps = {
-	shouldRender: boolean;
 	size?: TModalSize;
 	borderRadius?: string | number;
 };
@@ -26,4 +24,18 @@ export type ModalContentProps = {
 
 export type AnimationDelayProps = {
 	delay?: number;
+};
+
+export type BankAccountCardProps = {
+	isFavorite?: boolean;
+	showCursor?: boolean;
+};
+
+export type CenterProps = {
+	fullHeight?: boolean;
+	fullWidth?: boolean;
+};
+
+export type FlexProps = {
+	full?: boolean;
 };

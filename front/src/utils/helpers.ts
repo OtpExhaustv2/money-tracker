@@ -33,3 +33,8 @@ export const formatDate = (value: Date) => {
 export const mergeObjects = (obj1: any, obj2: any) => {
 	return Object.assign({}, obj1, obj2);
 };
+
+export const deleteKey = <T>(obj: T, key: keyof T) => {
+	const { [key]: _, ...rest } = obj;
+	return rest;
+};

@@ -11,6 +11,14 @@ export type Theme = {
 		secondary: CSS['color'];
 		hover: CSS['color'];
 	};
+	card: {
+		borderRadius: string | number;
+		borderColor: {
+			selected: CSS['color'];
+			unselected: CSS['color'];
+		};
+		backgroundColor: CSS['backgroundColor'];
+	};
 };
 
 export const LightTheme: Theme = {
@@ -24,6 +32,14 @@ export const LightTheme: Theme = {
 		secondary: '#999',
 		hover: '#000',
 	},
+	card: {
+		borderRadius: '0.5rem',
+		borderColor: {
+			selected: '#000',
+			unselected: '#000',
+		},
+		backgroundColor: '#fff',
+	},
 };
 
 export const DarkTheme: Theme = {
@@ -36,5 +52,13 @@ export const DarkTheme: Theme = {
 		primary: '#fff',
 		secondary: '#999',
 		hover: '#fff',
+	},
+	card: {
+		borderRadius: '0.5rem',
+		borderColor: {
+			selected: '#fff',
+			unselected: '#6B728E',
+		},
+		backgroundColor: '#404258',
 	},
 };

@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AnimatePresence } from 'framer-motion';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -39,15 +40,17 @@ const SidebarItem: React.FC<TSidebarItem> = ({
 					</SidebarItemCollapseIcon>
 				)}
 			</SidebarItemContainer>
-			{isCollapsible && isCollapsed && (
-				<SidebarChildrenItemContainer isCollapsed={isCollapsed}>
-					{children?.map((child, index) => (
-						<SidebarChildrenItem key={index} isCollapsed={isCollapsed}>
-							{child}
-						</SidebarChildrenItem>
-					))}
-				</SidebarChildrenItemContainer>
-			)}
+			<AnimatePresence>
+				{isCollapsible && isCollapsed && (
+					<SidebarChildrenItemContainer isCollapsed={isCollapsed}>
+						{children?.map((child, index) => (
+							<SidebarChildrenItem key={index} isCollapsed={isCollapsed}>
+								{child}
+							</SidebarChildrenItem>
+						))}
+					</SidebarChildrenItemContainer>
+				)}
+			</AnimatePresence>
 		</>
 	);
 };

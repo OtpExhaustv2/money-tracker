@@ -1,27 +1,13 @@
-import { AnimationDelayProps } from '@/utils/styles/style.types';
-import styled, { keyframes } from 'styled-components';
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
 
-const fadeIn = keyframes`
-	from {
-		transform: translateY(-10px);
-		opacity: 0;
-	}
-	to {
-		transform: translateY(0);
-		opacity: 1;
-	}
-`;
-
-export const TransactionsContainer = styled.div`
+export const TransactionsContainer = styled(motion.div)`
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
 `;
 
-export const TransactionContainer = styled.div<AnimationDelayProps>`
+export const TransactionContainer = styled(motion.div)`
 	display: flex;
 	flex-direction: column;
-	opacity: 0;
-	animation: ${fadeIn} 0.5s ease-in-out forwards;
-	animation-delay: ${({ delay }) => delay}ms;
 `;

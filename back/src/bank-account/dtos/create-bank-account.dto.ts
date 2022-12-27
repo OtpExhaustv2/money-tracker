@@ -8,13 +8,13 @@ import {
 } from 'class-validator';
 
 export class CreateBankAccountDto {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
   @IsIBAN()
   @IsNotEmpty()
   iban: string;
+
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
   @IsNumber()
   @IsNotEmpty()

@@ -2,6 +2,7 @@ import {
 	SidebarItemCollapseIconProps,
 	SidebarItemProps,
 } from '@/utils/styles/style.types';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 export const SidebarContainer = styled.div`
@@ -53,7 +54,9 @@ export const SidebarItemCollapseIcon = styled.span<SidebarItemCollapseIconProps>
 	transition: transform 0.2s ease-in-out;
 `;
 
-export const SidebarChildrenItemContainer = styled.div<SidebarItemCollapseIconProps>`
+export const SidebarChildrenItemContainer = styled(
+	motion.div
+)<SidebarItemCollapseIconProps>`
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;

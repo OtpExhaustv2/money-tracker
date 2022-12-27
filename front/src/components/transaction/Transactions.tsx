@@ -1,10 +1,8 @@
 import { useTransactionsByBankAccount } from '@/utils';
+import { AnimatePresence, LayoutGroup } from 'framer-motion';
 import React, { useMemo } from 'react';
 import Transaction from './Transaction';
-import {
-	TransactionContainer,
-	TransactionsContainer,
-} from './transaction.style';
+import { TransactionsContainer } from './transaction.style';
 
 interface TransactionsProps {
 	bankAccountId: number;
@@ -23,13 +21,19 @@ const Transactions: React.FC<TransactionsProps> = ({
 	);
 
 	return (
-		<TransactionsContainer>
-			{recentsTransactions?.map((transaction, index) => (
-				<TransactionContainer key={transaction.id} delay={index * 200}>
-					<Transaction transaction={transaction} />
-				</TransactionContainer>
-			))}
-		</TransactionsContainer>
+		<LayoutGroup>
+			<TransactionsContainer layout>
+				<AnimatePresence>
+					{recentsTransactions?.map((transaction, index) => (
+						<Transaction
+							transaction={transaction}
+							key={transaction.id}
+							index={index}
+						/>
+					))}
+				</AnimatePresence>
+			</TransactionsContainer>
+		</LayoutGroup>
 	);
 };
 

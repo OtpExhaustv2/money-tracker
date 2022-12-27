@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { CenterProps, FlexProps } from './style.types';
 
 export const MainContainer = styled.div`
 	display: grid;
@@ -17,12 +18,48 @@ export const AppContainer = styled.div`
 	padding: 1rem;
 `;
 
-export const Row = styled.div`
+export const Row = styled.div<FlexProps>`
 	display: flex;
 	flex-direction: row;
+	align-items: center;
+	gap: 1rem;
+
+	${({ full }) =>
+		full &&
+		css`
+			& > :not(svg) {
+				flex: 1;
+			}
+			flex: 1;
+		`}
 `;
 
-export const Column = styled.div`
+export const Column = styled.div<FlexProps>`
 	display: flex;
 	flex-direction: column;
+	gap: 1rem;
+
+	${({ full }) =>
+		full &&
+		css`
+			& > * {
+				flex: 1;
+			}
+		`}
+`;
+
+export const Flex1 = styled.div`
+	flex: 1;
+`;
+
+export const End = styled.div`
+	margin-left: auto;
+`;
+
+export const Center = styled.div<CenterProps>`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	${({ fullHeight }) => fullHeight && `height: 100%`};
+	${({ fullWidth }) => fullWidth && `width: 100%`};
 `;
