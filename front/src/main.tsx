@@ -1,4 +1,4 @@
-import AuthProvider from '@/utils/contexts/AuthContext';
+import { AuthProvider, GlobalStateProvider } from '@/utils';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -22,9 +22,11 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<QueryClientProvider client={queryClient}>
 		<Router>
-			<AuthProvider>
-				<App />
-			</AuthProvider>
+			<GlobalStateProvider>
+				<AuthProvider>
+					<App />
+				</AuthProvider>
+			</GlobalStateProvider>
 		</Router>
 	</QueryClientProvider>
 );

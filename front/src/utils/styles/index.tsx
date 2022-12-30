@@ -1,5 +1,14 @@
-import styled, { css } from 'styled-components';
+import styled, { createGlobalStyle, css } from 'styled-components';
 import { CenterProps, FlexProps } from './style.types';
+
+export const GlobalStyles = createGlobalStyle`
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		font-family: 'Roboto', sans-serif;
+	}
+`;
 
 export const MainContainer = styled.div`
 	display: grid;

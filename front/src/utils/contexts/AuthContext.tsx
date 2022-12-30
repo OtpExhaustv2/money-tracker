@@ -1,7 +1,7 @@
 import { login, removeLocalStorage, setLocalStorage, useMe } from '@/utils';
 import { createContext, ReactNode, useContext, useState } from 'react';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
 	const c = useContext(AuthContext);
@@ -11,28 +11,26 @@ export const useAuth = () => {
 	return c;
 };
 
-type AuthContextType = {
+type TAuthContext = {
 	user: User | null;
 	login: (params: LoginRequest) => void;
 	logout: () => void;
 	isLoading: boolean;
 };
 
-const AuthContext = createContext<AuthContextType>({
-	user: null,
-	login: (params: LoginRequest) => {},
-	logout: () => {},
-	isLoading: true,
-});
+const AuthContext = createContext<TAuthContext | undefined>(undefined);
 
-const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-	const [user, setUser] = useState<User | null>(null);
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+	children,
+}) => {
 	const navigate = useNavigate();
+	const location = useLocation();
+	const [user, setUser] = useState<User | null>(null);
 	const { mutate: _login } = useMutation('login', login, {
 		onSuccess(data) {
 			setLocalStorage('token', data.accessToken);
 			setUser(data);
-			navigate('..');
+			navigate(location.state.from ?? '/');
 		},
 	});
 
@@ -55,5 +53,3 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 		</AuthContext.Provider>
 	);
 };
-
-export default AuthProvider;

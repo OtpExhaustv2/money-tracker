@@ -3,7 +3,7 @@ import { useTheme } from '@/hooks';
 import { BankAccounts, Home } from '@/pages/app';
 import { Login, Register } from '@/pages/auth';
 import { AuthenticatedRoute, UnauthenticatedRoute } from '@/routes';
-import { DarkTheme, LightTheme } from '@/utils';
+import { DarkTheme, GlobalStyles, LightTheme } from '@/utils';
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
@@ -13,6 +13,7 @@ const App = () => {
 	return (
 		<ThemeProvider
 			theme={theme ? (theme === 'dark' ? DarkTheme : LightTheme) : DarkTheme}>
+			<GlobalStyles />
 			<Routes>
 				<Route element={<AuthenticatedRoute children={<AppPage />} />}>
 					<Route path='/' element={<Home />} />

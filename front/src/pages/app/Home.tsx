@@ -1,5 +1,4 @@
 import { BankAccounts } from '@/components';
-import { useCreateTransaction } from '@/utils';
 import { Variants } from 'framer-motion';
 
 import React from 'react';
@@ -16,9 +15,6 @@ const variants: Variants = {
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
-	const { mutate: createTransaction } = useCreateTransaction();
-	const [visible, setVisible] = React.useState(false);
-
 	return (
 		<>
 			<h1>Tableau de bord</h1>

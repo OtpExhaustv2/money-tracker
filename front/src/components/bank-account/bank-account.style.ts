@@ -13,7 +13,8 @@ export const BankAccountCard = styled.div<BankAccountCardProps>`
 	padding: 1rem;
 	border-radius: ${({ theme }) => theme.card.borderRadius};
 	cursor: ${({ showCursor = true }) => (showCursor ? 'pointer' : 'default')};
-	transition: 0.2s ease-in-out;
+	transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out,
+		box-shadow 0.3s ease-in-out;
 	overflow: hidden;
 	border: 1px solid
 		${({ isFavorite, theme }) =>

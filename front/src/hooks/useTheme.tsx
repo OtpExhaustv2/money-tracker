@@ -1,35 +1,20 @@
+import { useGlobal } from '@/utils';
 import { useEffect } from 'react';
-import { getLocalStorage } from '../utils/helpers';
-import useGlobal from './useGlobal';
 
 const useTheme = () => {
-	const { globalState, setGlobalState } = useGlobal();
+	const { theme, setTheme } = useGlobal();
 
 	useEffect(() => {
-		const storedTheme = getLocalStorage('theme') as SelectableTheme;
-		if (storedTheme) {
-			setGlobalState((_) => ({ ..._, theme: storedTheme }));
+		if (theme) {
+			localStorage.setItem('theme', theme);
 		}
-	}, []);
-
-	useEffect(() => {
-		if (globalState?.theme) {
-			localStorage.setItem('theme', globalState?.theme);
-		}
-	}, [globalState?.theme]);
+	}, [theme]);
 
 	const toggleTheme = () => {
-		setGlobalState((_) => ({
-			..._,
-			theme: globalState?.theme === 'dark' ? 'light' : 'dark',
-		}));
+		setTheme(theme === 'dark' ? 'light' : 'dark');
 	};
 
-	const setTheme = (theme: SelectableTheme) => {
-		setGlobalState((_) => ({ ..._, theme }));
-	};
-
-	return { theme: globalState?.theme, setTheme, toggleTheme };
+	return { theme, setTheme, toggleTheme };
 };
 
 export default useTheme;
