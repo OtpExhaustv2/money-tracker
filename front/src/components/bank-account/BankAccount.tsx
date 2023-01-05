@@ -39,7 +39,7 @@ const BankAccount: React.FC<BankAccountProps> = ({
 					<span>{formatCurrency(bankAccount.balance)}</span>
 				</BankAccountCardHeaderTitle>
 				<BankAccountCardHeaderActions>
-					<Icon icon='pen' onClick={editBankAccount} />
+					<Icon icon='pen' onClick={() => editBankAccount()} />
 				</BankAccountCardHeaderActions>
 			</BankAccountCardHeader>
 
