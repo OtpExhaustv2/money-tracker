@@ -1,13 +1,7 @@
-import {
-	deleteKey,
-	Row,
-	useCreateBankAccount,
-	useUpdateBankAccount,
-} from '@/utils';
-import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Row, useCreateBankAccount, useUpdateBankAccount } from '@/utils';
+import React from 'react';
 import Input from '../inputs/Input';
-import { modal } from '../modal/Modal';
+import { Panel, usePanel } from '../panel/Panel';
 import { BankAccountFormContainer } from './bank-account.style';
 
 interface BankAccountFormProps {
@@ -21,63 +15,44 @@ const BankAccountForm: React.FC<BankAccountFormProps> = ({
 }) => {
 	const { mutate: updateBankAccount } = useUpdateBankAccount();
 	const { mutate: createBankAccount } = useCreateBankAccount();
-	const {
-		register,
-		handleSubmit,
-		formState: { isDirty },
-		setValue,
-	} = useForm({
-		defaultValues: bankAccount,
+	const panel = usePanel({
+		action: action,
+		row: bankAccount,
+		create: createBankAccount,
+		update: updateBankAccount,
 	});
-
-	useEffect(() => {
-		modal.setConfig({
-			showAsterisk: action === 'update' ? isDirty : false,
-		});
-	}, [isDirty]);
-
-	useEffect(() => {
-		modal.setConfig({
-			onSubmit: handleSubmit(onSubmit),
-			size: 'xl',
-		});
-	}, []);
-
-	const onSubmit = (data: BankAccount) => {
-		if (action === 'update' && !isDirty) return modal.hide();
-		const bankAccount = deleteKey(data, 'transactions');
-		(action === 'create' ? createBankAccount : updateBankAccount)(
-			bankAccount as BankAccountWithoutTransactions
-		);
-	};
 
 	return (
 		<BankAccountFormContainer>
-			<Row full>
+			<Panel panel={panel}>
+				<Row full>
+					<Input fieldName='balance' label='Balance initiale' />
+				</Row>
+				<p>test</p>
+			</Panel>
+			{/* <Row full>
 				<Input
 					register={register}
 					fieldName='iban'
 					label='IBAN'
-					format={(iban: string) => {
-						setValue(
-							'iban',
-							iban
-								.replace(/[^\dA-Z]/g, '')
-								.replace(/(.{4})/g, '$1 ')
-								.trim()
-						);
-					}}
+					// format={(iban: string) => {
+					// 	setValue(
+					// 		'iban',
+					// 		iban
+					// 			.replace(/[^\dA-Z]/g, '')
+					// 			.replace(/(.{4})/g, '$1 ')
+					// 			.trim()
+					// 	);
+					// }}
 				/>
-				<Input register={register} fieldName='name' label='Nom du compte' />
-			</Row>
-			<Row full>
+				<Input fieldName='name' label='Nom du compte' register={register} />
 				<Input
+					fieldName='isFavorite'
+					label='Favoris'
+					disabled={bankAccount?.isFavorite}
 					register={register}
-					type='number'
-					fieldName='balance'
-					label='Balance initiale'
 				/>
-			</Row>
+			</Row> */}
 		</BankAccountFormContainer>
 	);
 };

@@ -65,6 +65,18 @@ export class BankAccountService {
           'You are not the owner of this bank account',
         );
       }
+      if (bankAccountToUpdate.isFavorite !== bankAccount.isFavorite) {
+        if (bankAccount.isFavorite) {
+          await this.prisma.bankAccount.updateMany({
+            where: {
+              userId: userId,
+            },
+            data: {
+              isFavorite: false,
+            },
+          });
+        }
+      }
       return await this.prisma.bankAccount.update({
         where: {
           id: bankAccountId,
@@ -86,13 +98,6 @@ export class BankAccountService {
         },
         orderBy: {
           isFavorite: 'desc',
-        },
-        include: {
-          transactions: {
-            orderBy: {
-              date: 'desc',
-            },
-          },
         },
       });
     } catch (error) {

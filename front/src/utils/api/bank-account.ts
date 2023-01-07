@@ -5,15 +5,13 @@ import axios from '../axios';
 export const getBankAccounts = async () =>
 	await axios.get<BankAccount[]>('/bank-accounts');
 
-export const updateBankAccount = async (
-	bankAccount: BankAccountWithoutTransactions
-) => await axios.put(`/bank-accounts/${bankAccount.id}`, bankAccount);
+export const updateBankAccount = async (bankAccount: BankAccount) =>
+	await axios.put(`/bank-accounts/${bankAccount.id}`, bankAccount);
 
 export const useBankAccounts = () => useQuery('bank-accounts', getBankAccounts);
 
-export const createBankAccount = async (
-	bankAccount: BankAccountWithoutTransactions
-) => await axios.post('/bank-accounts', bankAccount);
+export const createBankAccount = async (bankAccount: BankAccount) =>
+	await axios.post('/bank-accounts', bankAccount);
 
 export const useCreateBankAccount = () => {
 	const queryClient = useQueryClient();

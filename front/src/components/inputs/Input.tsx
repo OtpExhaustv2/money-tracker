@@ -1,45 +1,49 @@
-import { Path, UseFormReturn } from 'react-hook-form';
+import { usePanelContext } from '@/utils/contexts/PanelContext';
 import { InputContainer, InputField, InputLabel } from './input.style';
 
-interface InputProps<T extends Record<string, any>> {
+interface InputProps<T> {
 	label?: string;
-	type?: 'text' | 'number' | 'date';
-	fieldName: Path<T>;
-	register: UseFormReturn<T>['register'];
+	fieldName: Extract<keyof T, string>;
 	placeholder?: string;
 	format?: (value: any) => void;
+	disabled?: boolean;
 }
 
-const Input = <T extends Record<string, any>>({
+const Input = <T,>({
 	label,
-	type = 'text',
 	fieldName,
-	register,
 	placeholder,
+	disabled,
 	format,
 }: InputProps<T>) => {
-	const options =
-		type === 'number'
-			? {
-					valueAsNumber: true,
-					onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-						format?.(e.target.valueAsNumber);
-					},
-			  }
-			: {
-					onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-						format?.(e.target.value);
-					},
-			  };
+	const { row, setRowField } = usePanelContext<T>();
+	// const options =
+	// 	type === 'number'
+	// 		? {
+	// 				valueAsNumber: true,
+	// 				onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 					format?.(e.target.valueAsNumber);
+	// 				},
+	// 		  }
+	// 		: {
+	// 				onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 					format?.(e.target.value);
+	// 				},
+	// 		  };
+
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setRowField?.(fieldName, e.target.value);
+	};
 
 	return (
 		<InputContainer>
 			<InputLabel htmlFor={fieldName}>{label}</InputLabel>
 			<InputField
-				{...register(fieldName, options)}
-				type={type}
+				// {...register(fieldName, options)}
 				placeholder={placeholder}
+				disabled={disabled}
 				id={fieldName}
+				onChange={onChange}
 			/>
 		</InputContainer>
 	);

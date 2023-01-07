@@ -20,10 +20,13 @@ declare global {
 		isFavorite: boolean;
 		createdAt: Date;
 		updatedAt: Date;
-		transactions: Transaction[];
 	};
 
-	type BankAccountWithoutTransactions = Omit<BankAccount, 'transactions'>;
+	type TValue = string | number | boolean | Date | undefined | null;
+
+	type BankAccountWithTransactions = BankAccount & {
+		transactions: Transaction[];
+	};
 
 	type Transaction = {
 		id: number;
@@ -123,4 +126,8 @@ declare global {
 	};
 
 	type TAction = 'view' | 'create' | 'update';
+
+	type TRowBuilder<T> = (row: T) => T;
+	type TRowSetter<T> = (builder: TRowBuilder<T>) => void;
+	type TSetRowField<T> = (fieldName: keyof T, value: T[keyof T]) => void;
 }
