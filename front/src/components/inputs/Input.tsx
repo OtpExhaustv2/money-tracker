@@ -32,8 +32,17 @@ const Input = <T,>({
 	// 		  };
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setRowField?.(fieldName, e.target.value);
+		setRowField?.(
+			fieldName,
+			typeof row?.[fieldName] === 'number'
+				? e.target.valueAsNumber
+				: e.target.value
+		);
 	};
+
+	const value = row?.[fieldName];
+
+	const type = typeof row?.[fieldName] === 'number' ? 'number' : 'text';
 
 	return (
 		<InputContainer>
@@ -42,8 +51,10 @@ const Input = <T,>({
 				// {...register(fieldName, options)}
 				placeholder={placeholder}
 				disabled={disabled}
+				value={value}
 				id={fieldName}
 				onChange={onChange}
+				type={type}
 			/>
 		</InputContainer>
 	);

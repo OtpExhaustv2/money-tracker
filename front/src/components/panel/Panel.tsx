@@ -71,7 +71,7 @@ export const usePanel: <T extends Record<string, any>>(
 			onSubmit: onSubmit,
 			size: 'xl',
 		});
-	}, [isDirty]);
+	}, [isDirty, localRow]);
 
 	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -83,7 +83,7 @@ export const usePanel: <T extends Record<string, any>>(
 
 	return {
 		action: params.action,
-		row: params.row,
+		row: localRow,
 		isDirty: isDirty,
 		setRowField:
 			params.action === 'view' ? undefined : setRowToSetRowField(setLocalRow),

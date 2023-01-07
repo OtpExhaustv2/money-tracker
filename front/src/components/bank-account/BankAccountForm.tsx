@@ -28,7 +28,6 @@ const BankAccountForm: React.FC<BankAccountFormProps> = ({
 				<Row full>
 					<Input fieldName='balance' label='Balance initiale' />
 				</Row>
-				<p>test</p>
 			</Panel>
 			{/* <Row full>
 				<Input
