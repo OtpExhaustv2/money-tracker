@@ -1,4 +1,7 @@
-import { PanelContext } from '@/utils/contexts/PanelContext';
+import {
+	createPanelContext,
+	TCreatePanelContext,
+} from '@/utils/contexts/PanelContext';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { UseMutateFunction } from 'react-query';
 import { modal } from '../modal/Modal';
@@ -43,24 +46,34 @@ interface IPanel<T> {
 	setRowField: TSetRowField<{ [P in keyof T]: T[P] } | undefined> | undefined;
 }
 
+let context: any;
+
+export const PanelContext: TCreatePanelContext = <T,>() => {
+	if (!context) {
+		context = createPanelContext<T>();
+	}
+	return context;
+};
+
 export const Panel = <T,>({
 	panel,
 	children,
 }: PanelProps<T> & PropsWithChildren) => {
+	const Context = PanelContext<T>();
 	return (
-		<PanelContext.Provider
+		<Context.Provider
 			value={{
 				row: panel.row,
 				setRowField: panel.setRowField,
 			}}>
 			{children}
-		</PanelContext.Provider>
+		</Context.Provider>
 	);
 };
 
-export const usePanel: <T extends Record<string, any>>(
+export const usePanel: <T>(params: IPanelParams<T>) => IPanel<T> = <T,>(
 	params: IPanelParams<T>
-) => IPanel<T> = <T,>(params: IPanelParams<T>) => {
+) => {
 	const [localRow, setLocalRow] = useState(params.row);
 
 	const isDirty = JSON.stringify(localRow) !== JSON.stringify(params.row);

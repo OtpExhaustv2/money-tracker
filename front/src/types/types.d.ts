@@ -22,7 +22,7 @@ declare global {
 		updatedAt: Date;
 	};
 
-	type TValue = string | number | boolean | Date | undefined | null;
+	type TValue = string | number | boolean | undefined | null;
 
 	type BankAccountWithTransactions = BankAccount & {
 		transactions: Transaction[];

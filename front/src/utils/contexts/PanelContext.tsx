@@ -1,18 +1,23 @@
 import { createContext, useContext } from 'react';
 
-type TPanelContext<T> = {
+export type TPanelContext<T> = {
 	row: { [P in keyof T]: T[P] } | undefined;
 	setRowField: TSetRowField<{ [P in keyof T]: T[P] } | undefined> | undefined;
 };
 
-export const PanelContext = createContext<TPanelContext<any> | undefined>(
-	undefined
-);
-
-export const usePanelContext = <T,>() => {
-	const context = useContext(PanelContext);
-	if (context === undefined) {
-		throw new Error('usePanelContext must be used within a PanelContext');
-	}
-	return context as TPanelContext<T>;
+export const createPanelContext = <T,>() => {
+	return createContext<TPanelContext<T> | undefined>(undefined);
 };
+
+export const usePanelContext = <T,>(context: TCreatePanelContext) => {
+	const c = useContext(context<T>());
+	if (!c) {
+		throw new Error(
+			'usePanelContext must be used within a PanelContext.Provider'
+		);
+	}
+
+	return c;
+};
+
+export type TCreatePanelContext = typeof createPanelContext;

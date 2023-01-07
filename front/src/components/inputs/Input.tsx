@@ -1,9 +1,10 @@
 import { usePanelContext } from '@/utils/contexts/PanelContext';
+import { PanelContext } from '../panel/Panel';
 import { InputContainer, InputField, InputLabel } from './input.style';
 
 interface InputProps<T> {
 	label?: string;
-	fieldName: Extract<keyof T, string>;
+	fieldName: keyof T;
 	placeholder?: string;
 	format?: (value: any) => void;
 	disabled?: boolean;
@@ -16,7 +17,7 @@ const Input = <T,>({
 	disabled,
 	format,
 }: InputProps<T>) => {
-	const { row, setRowField } = usePanelContext<T>();
+	const { row, setRowField } = usePanelContext<T>(PanelContext);
 	// const options =
 	// 	type === 'number'
 	// 		? {
@@ -39,16 +40,13 @@ const Input = <T,>({
 				: e.target.value
 		);
 	};
-
 	const value = row?.[fieldName];
-
 	const type = typeof row?.[fieldName] === 'number' ? 'number' : 'text';
 
 	return (
 		<InputContainer>
 			<InputLabel htmlFor={fieldName}>{label}</InputLabel>
 			<InputField
-				// {...register(fieldName, options)}
 				placeholder={placeholder}
 				disabled={disabled}
 				value={value}
